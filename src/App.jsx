@@ -5,7 +5,6 @@ import Sidebar from "./components/Sidebar";
 import AllTasks from "./components/AllTasks";
 import CompleteTask from "./components/CompleteTask";
 import InProgressTask from "./components/InProgressTask";
-import Dashboard from "./components/Dashboard";
 import PendingTask from "./components/PendingTask";
 import "./App.css";
 
@@ -20,7 +19,6 @@ const App = () => {
         <Route path="/completeTask" element={<CompleteTask />} />
         <Route path="/pendingTask" element={<PendingTask />} />
         <Route path="/inProgressTask" element={<InProgressTask />} />
-        <Route path="/statsTask" element={<Dashboard />} />
       </Routes>
     </div>
   );
