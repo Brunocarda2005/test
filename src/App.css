@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Gabarito:wght@400..900&family=Kanit:wght@500&family=Karla:ital,wght@0,300;1,200&family=Lobster&family=Montserrat:wght@200;600&family=Poppins:ital,wght@0,200;0,300;1,100&family=Rethink+Sans&family=Roboto:wght@100;300;400&family=Ubuntu:wght@300;500&family=Work+Sans:wght@300&display=swap');
+
+
+.ubuntu-light {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.ubuntu-medium {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+.ubuntu-bold {
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.poppins-extralight {
+  font-family: "Poppins", sans-serif;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.poppins-light {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.poppins {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: bold;
+}
+
+.anton-regular {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.gabarito-regular {
+  font-family: "Gabarito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
