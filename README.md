@@ -21,7 +21,6 @@ Asegúrate de tener instalado lo siguiente:
    ```
       npm install
    ```
-
-  ```
+   ```
      npm run dev
-  ```
+   ```
