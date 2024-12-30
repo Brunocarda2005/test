@@ -1,4 +1,5 @@
-const API_URL = "https://testback-7onu.onrender.com/api/task";
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 export const fetchTasks = async (queryParams = "") => {
   const url = `${API_URL}?Estado=${queryParams}`;
