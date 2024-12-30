@@ -19,8 +19,8 @@ Asegúrate de tener instalado lo siguiente:
    cd test
    ```
    ```
-      npm install
+   npm install
    ```
    ```
-     npm run dev
+   npm run dev
    ```
