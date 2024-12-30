@@ -1,4 +1,4 @@
-const API_URL = "https://testback-7onu.onrender.com/api/task";
+const API_URL = "http://localhost:3000/api/task";
 
 
 export const fetchTasks = async (queryParams = "") => {
