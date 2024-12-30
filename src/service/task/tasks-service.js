@@ -3,7 +3,12 @@ const API_URL = "https://testback-7onu.onrender.com/api/task";
 export const fetchTasks = async (queryParams = "") => {
   const url = `${API_URL}?Estado=${queryParams}`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
