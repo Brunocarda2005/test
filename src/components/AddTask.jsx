@@ -3,14 +3,21 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch } from "react-redux";
 import { createTaskThunk } from "../store/taskSlice";
 import { EstadosValue } from "../service/const/Estados";
+import { MdClose } from "react-icons/md";
 
 const AddTask = () => {
   const dispatch = useDispatch();
+  const [alert, setAlert] = useState(null);
   const [formData, setFormData] = useState({
     Titulo: "",
     Descripcion: "",
     Estado: "",
   });
+
+  const ALERT_MESSAGE = {
+    ESTADO: "Please select a status",
+    TITLE: "Please enter a title",
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,8 +27,23 @@ const AddTask = () => {
     });
   };
 
+  const validate = () => {
+    if (formData.Titulo.length === 0) {
+      setAlert(ALERT_MESSAGE.TITLE);
+      return true;
+    }
+
+    if (formData.Estado.length === 0) {
+      setAlert(ALERT_MESSAGE.ESTADO);
+      return true;
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (validate()) return;
+
     dispatch(createTaskThunk(formData));
     setFormData({
       Titulo: "",
@@ -30,8 +52,35 @@ const AddTask = () => {
     });
   };
 
+  const colorAlert = () => {
+    switch (alert) {
+      case ALERT_MESSAGE.TITLE:
+        return "bg-blue-500";
+      case ALERT_MESSAGE.ESTADO:
+        return "bg-red-500";
+      default:
+        return "bg-red-500";
+    }
+  };
+
+  const handleAlert = () => {
+    setAlert(null);
+  };
+
   return (
     <div className="w-[70%] mx-auto text-color-principal">
+      <section
+        className={`w-auto h-[3rem] flex gap-3 items-center mx-auto my-4 absolute top-[10%] right-[5%] bg-[#ffffffc4] rounded-lg overflow-hidden ${
+          alert ? "flex" : "hidden"
+        }`}
+      >
+        <span className={`h-full w-1  ${colorAlert()}`}></span>
+        <span className="text-color-sexto font-semibold mr-6">{alert}</span>
+        <MdClose
+          onClick={() => handleAlert()}
+          className="text-color-sexto font-semibold mr-2 cursor-pointer"
+        />
+      </section>
       <div className="">
         <h1 className="text-3xl font-bold my-8 text-center">Add New Task</h1>
         <div className="grid place-items-center">
@@ -91,6 +140,7 @@ const AddTask = () => {
                   value={formData.Estado}
                   onChange={handleChange}
                 >
+                  <option value="">Select</option>
                   <option value={EstadosValue.PENDING}>Pending</option>
                   <option value={EstadosValue.IN_PROGRESS}>In Progress</option>
                   <option value={EstadosValue.COMPLETED}>Completed</option>
