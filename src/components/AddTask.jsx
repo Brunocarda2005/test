@@ -2,13 +2,14 @@ import { useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch } from "react-redux";
 import { createTaskThunk } from "../store/taskSlice";
+import { EstadosValue } from "../service/const/Estados";
 
 const AddTask = () => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     Titulo: "",
     Descripcion: "",
-    Estado: "Pending",
+    Estado: "",
   });
 
   const handleChange = (e) => {
@@ -23,9 +24,9 @@ const AddTask = () => {
     e.preventDefault();
     dispatch(createTaskThunk(formData));
     setFormData({
-      title: "",
-      description: "",
-      status: "Pending",
+      Titulo: "",
+      Descripcion: "",
+      Estado: "",
     });
   };
 
@@ -90,11 +91,9 @@ const AddTask = () => {
                   value={formData.Estado}
                   onChange={handleChange}
                 >
-                  <option value="Pending">Pending</option>
-                  <option value="In Progress">In Progress</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Deployed">Deployed</option>
-                  <option value="Deferred">Deferred</option>
+                  <option value={EstadosValue.PENDING}>Pending</option>
+                  <option value={EstadosValue.IN_PROGRESS}>In Progress</option>
+                  <option value={EstadosValue.COMPLETED}>Completed</option>
                 </select>
               </div>
             </div>

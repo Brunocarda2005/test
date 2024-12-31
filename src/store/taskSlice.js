@@ -14,8 +14,8 @@ const initialState = {
 
 export const fetchTasksThunk = createAsyncThunk(
   "tasks/fetchTasks",
-  async () => {
-    const response = await fetchTasks();
+  async (filter) => {
+    const response = await fetchTasks(filter);
     return response;
   }
 );

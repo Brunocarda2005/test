@@ -1,15 +1,21 @@
-import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { deleteTaskThunk, updateTaskThunk } from "../store/taskSlice";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useState } from "react";
+import { EstadosValue } from "../service/const/Estados";
 
-const TaskCard = ({ id, title, description, startDate, status }) => {
-  const [complete, setComplete] = useState(false);
+const TaskCard = (params) => {
+  const { id, title, description, startDate, status } = params;
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title);
   const [editedDescription, setEditedDescription] = useState(description);
   const dispatch = useDispatch();
+
+  const Estados = {
+    PENDING: "Pending",
+    IN_PROGRES: "In Progress",
+    COMPLETED: "Completed",
+  };
 
   const getDate = (dateString) => {
     const dateObject = new Date(dateString);
@@ -26,11 +32,17 @@ const TaskCard = ({ id, title, description, startDate, status }) => {
         return "bg-blue-200 text-blue-800";
       case "pending":
         return "bg-yellow-200 text-yellow-800";
+      case "":
+        return "bg-yellow-200 text-yellow-800";
     }
   };
 
   const handleToggleCompleted = () => {
-    const newStatus = complete ? "Pending" : "Completed";
+    const keys = Object.keys(EstadosValue).filter((key) => key !== "ALL");
+    const keyActual = keys.findIndex((key) => EstadosValue[key] === status);
+    const nextKeyIndex = (keyActual + 1) % keys.length;
+    const newStatus = EstadosValue[keys[nextKeyIndex]];
+
     dispatch(
       updateTaskThunk({
         id,
@@ -41,7 +53,6 @@ const TaskCard = ({ id, title, description, startDate, status }) => {
         },
       })
     );
-    setComplete(!complete);
   };
 
   const handleDeleteTask = () => {
@@ -66,6 +77,23 @@ const TaskCard = ({ id, title, description, startDate, status }) => {
     setIsEditing(false);
   };
 
+  const showEstado = (estado) => {
+    switch (estado) {
+      // return "Pending";
+      case EstadosValue.PENDING:
+        return Estados.PENDING;
+      // return "In Progress";
+      case EstadosValue.IN_PROGRESS:
+        return Estados.IN_PROGRES;
+      // return "Completed";
+      case EstadosValue.COMPLETED:
+        return Estados.COMPLETED;
+      // return "All";;
+      default:
+        return null;
+    }
+  };
+
   return (
     <div
       className={`flex flex-col rounded-xl justify-center gap-4 bg-color-sexto w-72 max-h-[370px] shadow-xl border border-outline`}
@@ -78,7 +106,7 @@ const TaskCard = ({ id, title, description, startDate, status }) => {
             onChange={(e) => setEditedTitle(e.target.value)}
           />
           <textarea
-            className="w-full p-2 border rounded text-color-sexto"
+            className="w-full p-2 border rounded text-color-sexto resize-none"
             value={editedDescription}
             onChange={(e) => setEditedDescription(e.target.value)}
           />
@@ -93,7 +121,7 @@ const TaskCard = ({ id, title, description, startDate, status }) => {
         <>
           <div
             className={`relative bg-clip-border mt-6 ml-4 mr-4 rounded-lg ${getStatusColor(
-              status
+              showEstado(status)
             )} shadow-md h-45`}
           >
             <h1 className="font-bold text-xl py-4 my-5 ubuntu-bold h-full text-center">{`${title}`}</h1>
@@ -123,25 +151,15 @@ const TaskCard = ({ id, title, description, startDate, status }) => {
         <button
           onClick={handleToggleCompleted}
           type="button"
-          className={`flex items-center justify-center gap-2 text-black  select-none focus:outline-none shadow-md  uppercase font-bold text-xs py-2 px-6 rounded-lg ${
-            complete
-              ? "bg-green-200 text-green-800"
-              : `${getStatusColor(status)}`
-          }`}
+          className={`flex items-center justify-center gap-2 text-black  select-none focus:outline-none shadow-md  uppercase font-bold text-xs py-2 px-6 rounded-lg ${`${getStatusColor(
+            showEstado(status)
+          )}`}`}
         >
-          {complete ? "Completed" : `${status}`}
+          {showEstado(status)}
         </button>
       </div>
     </div>
   );
-};
-
-TaskCard.propTypes = {
-  id: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  startDate: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
 };
 
 export default TaskCard;

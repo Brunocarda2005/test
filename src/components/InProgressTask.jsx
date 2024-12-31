@@ -2,19 +2,23 @@ import TaskCard from "./TaskCard";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTasksThunk, selectAllTasks } from "../store/taskSlice";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { filterTasks } from "../service/tools/filter";
+import { EstadosValue } from "../service/const/Estados";
 
 const InProgressTask = () => {
   const dispatch = useDispatch();
   const tasks = useSelector(selectAllTasks);
+  const [filteredTasks, setFilteredTasks] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchTasksThunk());
-  }, [dispatch]);
+    if (tasks.length === 0) {
+      dispatch(fetchTasksThunk());
+    }
+    const filteredTasks = filterTasks(EstadosValue.IN_PROGRESS, tasks);
+    setFilteredTasks(filteredTasks);
+  }, [dispatch, tasks]);
 
-  const completedTasks = tasks.filter(
-    (task) => task?.Estado?.toLocaleLowerCase() === "completed"
-  );
   return (
     <div className="w-[70%] mx-auto text-color-principal">
       <div className="mt-10">
@@ -22,9 +26,9 @@ const InProgressTask = () => {
           In Progress Tasks
         </h1>
       </div>
-      {completedTasks.length > 0 ? (
+      {filteredTasks.length > 0 ? (
         <div className="flex flex-wrap gap-y-4 gap-x-14 overflow-y-scroll mt-5 h-[50vh] sm:h-[80vh] justify-center">
-          {completedTasks.map((task) => (
+          {filteredTasks?.map((task) => (
             <TaskCard
               key={task._id}
               id={task?._id}
