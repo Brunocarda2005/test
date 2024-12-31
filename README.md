@@ -18,10 +18,18 @@ Asegúrate de tener instalado lo siguiente:
    ```
    npm install
    ```
-
 3. Correlo:
    ```
    npm run dev
    ```
 
+### Variables de entorno 
 
+Produccion
+```
+VITE_API_URL=https://testback-7onu.onrender.com/api/task
+```
+Development
+```
+VITE_API_URL=http://localhost:4000/api/task
+```
