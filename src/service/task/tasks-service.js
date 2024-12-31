@@ -1,8 +1,8 @@
-const API_URL = "http://localhost:3000/api/task";
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const fetchTasks = async (queryParams = "") => {
-  const url = `${API_URL}?Estado=${queryParams}`;
+  const filter = queryParams ? `?Estado=${queryParams}` : ""
+  const url = `${API_URL}${filter}`;
   try {
     const response = await fetch(url, {
       method: "GET",
