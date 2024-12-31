@@ -1,8 +1,4 @@
-# Proyecto Nombre
-
-Este es el proyecto test. Puedes descargarlo y correrlo localmente para probarlo o desarrollarlo.
-
-Ten en cuenta que ambos proyectos, test y testback deben estar corriendo en simultaneo 
+# Test 
 
 ## Requisitos
 
@@ -18,9 +14,14 @@ Asegúrate de tener instalado lo siguiente:
    git clone https://github.com/Brunocarda2005/test.git
    cd test
    ```
+2. Instala las depencencias:
    ```
    npm install
    ```
+
+3. Correlo:
    ```
    npm run dev
    ```
+
+
