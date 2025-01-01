@@ -6,6 +6,7 @@ import { EstadosValue } from "../service/const/Estados";
 
 const TaskCard = (params) => {
   const { id, title, description, startDate, status } = params;
+  const MAX_CARACTERES = 68;
   const [isEditing, setIsEditing] = useState(false);
   const [editedTitle, setEditedTitle] = useState(title);
   const [editedDescription, setEditedDescription] = useState(description);
@@ -74,8 +75,10 @@ const TaskCard = (params) => {
         },
       })
     );
-    setIsEditing(false);
+    handleCancelEdit();
   };
+
+  const handleCancelEdit = () => setIsEditing(false);
 
   const showEstado = (estado) => {
     switch (estado) {
@@ -94,40 +97,75 @@ const TaskCard = (params) => {
     }
   };
 
+  const acortadorTexto = (text) => {
+    if (text?.length <= MAX_CARACTERES) {
+      return text;
+    }
+
+    const newText = text?.slice(0, MAX_CARACTERES) + "...";
+    return newText;
+  };
+
   return (
     <div
-      className={`flex flex-col rounded-xl justify-center gap-4 bg-color-sexto w-72 max-h-[370px] shadow-xl border border-outline`}
+      className={`flex flex-col rounded-xl justify-between gap-4 bg-color-sexto w-72 max-h-[370px] shadow-xl border border-outline p-2`}
     >
       {isEditing ? (
-        <div className="p-4">
+        <div className="flex flex-col">
           <input
-            className="w-full p-2 mb-2 border rounded text-color-sexto"
+            className={`relative bg-clip-border rounded-lg ${getStatusColor(
+              showEstado(status)
+            )} shadow-md w-full h-[9rem] flex justify-center items-center text-center font-bold text-xl ubuntu-bold`}
             value={editedTitle}
             onChange={(e) => setEditedTitle(e.target.value)}
           />
           <textarea
-            className="w-full p-2 border rounded text-color-sexto resize-none"
+            className="poppins-light h-[5rem] w-full p-2 border rounded text-color-sexto resize-none mt-5"
             value={editedDescription}
             onChange={(e) => setEditedDescription(e.target.value)}
           />
-          <button
-            className="mt-2 bg-blue-500 text-white p-2 rounded"
-            onClick={handleSaveTask}
-          >
-            Save
-          </button>
+          <footer className="flex gap-2">
+            <button
+              className="mt-2 bg-blue-500 text-white p-2 rounded"
+              onClick={() => handleSaveTask()}
+            >
+              Save
+            </button>
+            <button
+              className="mt-2 bg-red-500 text-white p-2 rounded"
+              onClick={() => handleCancelEdit()}
+            >
+              Cancel
+            </button>
+          </footer>
         </div>
       ) : (
         <>
           <div
-            className={`relative bg-clip-border mt-6 ml-4 mr-4 rounded-lg ${getStatusColor(
+            className={`relative bg-clip-border rounded-lg ${getStatusColor(
               showEstado(status)
-            )} shadow-md h-45`}
+            )} shadow-md h-[9rem] flex justify-center items-center`}
           >
-            <h1 className="font-bold text-xl py-4 my-5 ubuntu-bold h-full text-center">{`${title}`}</h1>
+            <span className="text-center font-bold text-xl ubuntu-bold">
+              {`${acortadorTexto(title)}`}
+              {title?.length > MAX_CARACTERES ? (
+                <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {title}
+                </span>
+              ) : null}
+            </span>
           </div>
-          <div className="border-0 p-2 text-center">
-            <p className="poppins-light">{`${description}`}</p>
+          <div className="border-0 text-center">
+            <div className="border-0 text-center relative group">
+              <p className="poppins-light h-[5rem]">
+                {`${acortadorTexto(description)}`}
+                {description?.length > MAX_CARACTERES ? (
+                  <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full bg-gray-700 text-white text-xs rounded py-1 px-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    {description}
+                  </span>
+                ) : null}
+              </p>
+            </div>
             <div className="flex justify-between mt-[5px] text-sm font-semibold py-2 px-4">
               <div className="flex justify-center flex-col">
                 <p>Start Date</p>
@@ -137,7 +175,7 @@ const TaskCard = (params) => {
           </div>
         </>
       )}
-      <div className="footer p-3 flex items-center justify-between">
+      <div className="footer flex items-center justify-between">
         <section className="flex justify-between gap-2">
           <MdDelete
             className="text-color-terciario text-2xl cursor-pointer"

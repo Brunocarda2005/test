@@ -67,7 +67,7 @@ const AllTasks = () => {
         </div>
       </div>
       {tasks.length > 0 && !tasks.message ? (
-        <div className="flex flex-wrap gap-y-4 gap-x-14 justify-center  overflow-y-scroll mt-5 h-[80vh] sm:h-[80vh]">
+        <div className="flex flex-wrap gap-y-4 gap-x-14 justify-center  overflow-y-scroll mt-5 mb-5 h-[80vh] sm:h-[80vh]">
           {tasks?.map((task) => (
             <TaskCard
               key={task._id}
